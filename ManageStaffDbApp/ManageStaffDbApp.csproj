@@ -6,4 +6,11 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="View\AddNewDepartmentWindow - Копировать.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>AddNewDepartmentWindow.xaml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
