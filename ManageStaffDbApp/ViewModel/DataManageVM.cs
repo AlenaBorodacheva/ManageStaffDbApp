@@ -43,17 +43,22 @@ namespace ManageStaffDbApp.ViewModel
             }
         }
 
-        public string DepartmentName { get; set; }
+        public static string DepartmentName { get; set; }
 
-        public string PositionName { get; set; }
-        public decimal PositionSalary { get; set; }
-        public int PositionMaxNumber { get; set; }
-        public Department PositionDepartment { get; set; }
+        public static string PositionName { get; set; }
+        public static decimal PositionSalary { get; set; }
+        public static int PositionMaxNumber { get; set; }
+        public static Department PositionDepartment { get; set; }
 
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public string UserPhone { get; set; }
-        public Position UserPosition { get; set; }
+        public static string UserName { get; set; }
+        public static string UserSurname { get; set; }
+        public static string UserPhone { get; set; }
+        public static Position UserPosition { get; set; }
+
+        public TabItem SelectedTabItem { get; set; }
+        public static User SelectedUser { get; set; }
+        public static Position SelectedPosition { get; set; }
+        public static Department SelectedDepartment { get; set; }
 
 
         #region COMMANDS TO ADD
@@ -173,6 +178,139 @@ namespace ManageStaffDbApp.ViewModel
 
         #endregion
 
+        #region COMMAND TO DELETE
+
+        private RelayCommand deleteItem;
+
+        public RelayCommand DeleteItem
+        {
+            get
+            {
+                return deleteItem ?? new RelayCommand(obj =>
+                {
+                    string resultStr = "Ничего не выбрано";
+                    if (SelectedTabItem.Name == "UsersTab" && SelectedUser != null)
+                    {
+                        resultStr = DataWorker.DeleteUser(SelectedUser);
+                        UpdateAllDataView();
+                    }
+                    if (SelectedTabItem.Name == "PositionsTab" && SelectedPosition != null)
+                    {
+                        resultStr = DataWorker.DeletePosition(SelectedPosition);
+                        UpdateAllDataView();
+                    }
+                    if (SelectedTabItem.Name == "DepartmentsTab" && SelectedDepartment != null)
+                    {
+                        resultStr = DataWorker.DeleteDepartment(SelectedDepartment);
+                        UpdateAllDataView();
+                    }
+
+                    SetNullValuewToProperties();
+                    ShowMessageToUser(resultStr);
+                });
+            }
+        }
+
+        #endregion
+
+        #region EDITCOMMANDS
+
+        private RelayCommand editUser;
+
+        public RelayCommand EditUser
+        {
+            get
+            {
+                return editUser ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран сотрудник";
+                    string noPositionStr = "Не выбрана новая должность";
+                    if (SelectedUser != null)
+                    {
+                        if (UserPosition != null)
+                        {
+                            resultStr = DataWorker.EditUser(SelectedUser, UserName, UserSurname, UserPhone, UserPosition);
+                            UpdateAllDataView();
+                            SetNullValuewToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else
+                        {
+                            ShowMessageToUser(noPositionStr);
+                        }
+                    }
+                    else
+                    {
+                        ShowMessageToUser(resultStr);
+                    }
+                });
+            }
+        }
+
+        private RelayCommand editPosition;
+
+        public RelayCommand EditPosition
+        {
+            get
+            {
+                return editPosition ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбрана позиция";
+                    string noDepartmentStr = "Не выбран новый отдел";
+                    if (SelectedPosition != null)
+                    {
+                        if (PositionDepartment != null)
+                        {
+                            resultStr = DataWorker.EditPosition(SelectedPosition, PositionName, PositionMaxNumber, PositionSalary, PositionDepartment);
+                            UpdateAllDataView();
+                            SetNullValuewToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else
+                        {
+                            ShowMessageToUser(noDepartmentStr);
+                        }
+                    }
+                    else
+                    {
+                        ShowMessageToUser(resultStr);
+                    }
+                });
+            }
+        }
+
+        private RelayCommand editDepartment;
+
+        public RelayCommand EditDepartment
+        {
+            get
+            {
+                return editDepartment ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран отдел";
+                    if (SelectedDepartment != null)
+                    {
+                        resultStr = DataWorker.EditDepartment(SelectedDepartment, DepartmentName);
+                        UpdateAllDataView();
+                        SetNullValuewToProperties();
+                        ShowMessageToUser(resultStr);
+                        window.Close();
+                    }
+                    else
+                    {
+                        ShowMessageToUser(resultStr);
+                    }
+                });
+            }
+        }
+
+        #endregion
+
         #region COMMANDS TO OPEN WINDOW
 
         private RelayCommand openAddNewDepartmentWnd;
@@ -214,6 +352,31 @@ namespace ManageStaffDbApp.ViewModel
             }
         }
 
+        private RelayCommand openEditItemWnd;
+
+        public RelayCommand OpenEditItemWnd
+        {
+            get
+            {
+                return openEditItemWnd ?? new RelayCommand(obj =>
+                {
+                    string resultStr = "Ничего не выбрано";
+                    if (SelectedTabItem.Name == "UsersTab" && SelectedUser != null)
+                    {
+                        OpenEditUserWindowMethod(SelectedUser);
+                    }
+                    if (SelectedTabItem.Name == "PositionsTab" && SelectedPosition != null)
+                    {
+                        OpenEditPositionWindowMethod(SelectedPosition);
+                    }
+                    if (SelectedTabItem.Name == "DepartmentsTab" && SelectedDepartment != null)
+                    {
+                        OpenEditDepartmentWindowMethod(SelectedDepartment);
+                    }
+                });
+            }
+        }
+
         #endregion
 
         #region METHODS TO OPEN WONDOW
@@ -236,21 +399,21 @@ namespace ManageStaffDbApp.ViewModel
             SetCenterPositionAndOpen(newUserWindow);
         }
 
-        private void OpenEditDepartmentWindowMethod()
+        private void OpenEditDepartmentWindowMethod(Department department)
         {
-            EditDepartmentWindow editDepartmentWindow = new EditDepartmentWindow();
+            EditDepartmentWindow editDepartmentWindow = new EditDepartmentWindow(department);
             SetCenterPositionAndOpen(editDepartmentWindow);
         }
 
-        private void OpenEditPositionWindowMethod()
+        private void OpenEditPositionWindowMethod(Position position)
         {
-            EditPositionWindow editPositionWindow = new EditPositionWindow();
+            EditPositionWindow editPositionWindow = new EditPositionWindow(position);
             SetCenterPositionAndOpen(editPositionWindow);
         }
 
-        private void OpenEditUserWindowMethod()
+        private void OpenEditUserWindowMethod(User user)
         {
-            EditUserWindow editUserWindow = new EditUserWindow();
+            EditUserWindow editUserWindow = new EditUserWindow(user);
             SetCenterPositionAndOpen(editUserWindow);
         }
 

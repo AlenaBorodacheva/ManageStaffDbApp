@@ -11,12 +11,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
+        <TabControl Grid.Row="0" SelectedItem="{Binding SelectedTabItem}">
             <TabItem Name ="UsersTab">
                 <TabItem.Header>
                     <TextBlock Text="Staff"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}">
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}"
+                          SelectedItem="{Binding SelectedUser}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"
@@ -39,7 +46,14 @@
                 <TabItem.Header>
                     <TextBlock Text="Position"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}">
+                <TabItem.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}"
+                          SelectedItem="{Binding SelectedPosition}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"
@@ -60,7 +74,14 @@
                 <TabItem.Header>
                     <TextBlock Text="Department"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}">
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}"
+                          SelectedItem="{Binding SelectedDepartment}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"

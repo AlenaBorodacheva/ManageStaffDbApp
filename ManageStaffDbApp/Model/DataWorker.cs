@@ -111,7 +111,7 @@ public static class DataWorker
             Department departmentFromDb = db.Departments.FirstOrDefault(d => d.Id == department.Id);
             if (departmentFromDb != null)
             {
-                db.Departments.Remove(department);
+                db.Departments.Remove(departmentFromDb);
                 db.SaveChanges();
                 result = $"Сделано! Отдел {department.Name} удален";
             }
@@ -129,7 +129,7 @@ public static class DataWorker
             Position positionFromDb = db.Positions.FirstOrDefault(p => p.Id == position.Id);
             if (positionFromDb != null)
             {
-                db.Positions.Remove(position);
+                db.Positions.Remove(positionFromDb);
                 db.SaveChanges();
                 result = $"Сделано! позиция {position.Name} удалена";
             }
@@ -147,7 +147,7 @@ public static class DataWorker
             User userFromDb = db.Users.FirstOrDefault(d => d.Id == user.Id);
             if (userFromDb != null)
             {
-                db.Users.Remove(user);
+                db.Users.Remove(userFromDb);
                 db.SaveChanges();
                 result = $"Сделано! сотрудник {user.Name} удален";
             }
