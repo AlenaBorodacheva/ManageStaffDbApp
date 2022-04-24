@@ -16,15 +16,21 @@
                 <TabItem.Header>
                     <TextBlock Text="Staff"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllUsers}">
+                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="Surname"/>
-                            <GridViewColumn Header="Phone"/>
-                            <GridViewColumn Header="Salary"/>
-                            <GridViewColumn Header="Position"/>
-                            <GridViewColumn Header="Department"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Surname"
+                                            DisplayMemberBinding="{Binding Path=Surname}"/>
+                            <GridViewColumn Header="Phone"
+                                            DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="Salary"
+                                            DisplayMemberBinding="{Binding Path=Position.Salary}"/>
+                            <GridViewColumn Header="Position"
+                                            DisplayMemberBinding="{Binding Path=Position.Name}"/>
+                            <GridViewColumn Header="Department"
+                                            DisplayMemberBinding="{Binding Path=Position.Department.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -33,14 +39,19 @@
                 <TabItem.Header>
                     <TextBlock Text="Position"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllPositions}">
+                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="Salary"/>
-                            <GridViewColumn Header="Count of staffs"/>
-                            <GridViewColumn Header="Max number"/>
-                            <GridViewColumn Header="Department"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Salary"
+                                            DisplayMemberBinding="{Binding Path=Salary}"/>
+                            <GridViewColumn Header="Count of staffs"
+                                            DisplayMemberBinding="{Binding Path=Users.Count}"/>
+                            <GridViewColumn Header="Max number"
+                                            DisplayMemberBinding="{Binding Path=MxNumber}"/>
+                            <GridViewColumn Header="Department"
+                                            DisplayMemberBinding="{Binding Path=Department.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -49,11 +60,13 @@
                 <TabItem.Header>
                     <TextBlock Text="Department"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllDepartments}">
+                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="Count of positions"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Count of positions"
+                                            DisplayMemberBinding="{Binding Path=Positions.Count}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

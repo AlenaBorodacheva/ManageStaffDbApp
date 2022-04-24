@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManageStaffDbApp.View"
         mc:Ignorable="d"
-        Title="AddNewUserWindow" Height="300" Width="300">
+        Title="AddNewUserWindow" Height="300" Width="300"
+        Name="AddNewUserWnd">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -13,15 +14,17 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
             <TextBlock Text="Name"/>
-            <TextBox Text=""/>
+            <TextBox x:Name="NameBlock" Text="{Binding UserName}"/>
             <TextBlock Text="Surname"/>
-            <TextBox Text=""/>
+            <TextBox x:Name="SurnameBlock" Text="{Binding UserSurname}"/>
             <TextBlock Text="Phone"/>
-            <TextBox Text=""/>
+            <TextBox x:Name="PhoneBlock" PreviewTextInput="PreviewTextInput" Text="{Binding UserPhone}"/>
             <TextBlock Text="Position"/>
-            <TextBox Text=""/>
-            <ComboBox/>
+            <ComboBox ItemsSource="{Binding AllPositions}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding UserPosition}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Add staff"></Button>
+        <Button Grid.Row="1" Content="Add staff" Command="{Binding AddNewUser}" 
+                CommandParameter="{Binding ElementName=AddNewUserWnd}"></Button>
     </Grid>
 </Window>
