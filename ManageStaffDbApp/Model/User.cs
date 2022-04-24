@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManageStaffDbApp.Model
 {
@@ -14,5 +10,14 @@ namespace ManageStaffDbApp.Model
         public string Phone { get; set; }
         public int PositionId { get; set; }
         public virtual Position Position { get; set; }
+
+        [NotMapped]
+        public Position UserPosition
+        {
+            get
+            {
+                return DataWorker.GetPosiionById(PositionId);
+            }
+        }
     }
 }

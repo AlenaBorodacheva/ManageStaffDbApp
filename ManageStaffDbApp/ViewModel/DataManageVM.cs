@@ -119,6 +119,7 @@ namespace ManageStaffDbApp.ViewModel
                     {
                         resultStr = DataWorker.CreatePosition(PositionName, PositionSalary, PositionMaxNumber,
                             PositionDepartment);
+                        UpdateAllDataView();
                         ShowMessageToUser(resultStr);
                         SetNullValuewToProperties();
                         wnd.Close();
@@ -161,6 +162,7 @@ namespace ManageStaffDbApp.ViewModel
                     if (flag)
                     {
                         resultStr = DataWorker.CreateUser(UserName, UserSurname, UserPhone, UserPosition);
+                        UpdateAllDataView();
                         ShowMessageToUser(resultStr);
                         SetNullValuewToProperties();
                         wnd.Close();

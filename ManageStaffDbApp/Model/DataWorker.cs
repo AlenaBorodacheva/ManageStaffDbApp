@@ -215,4 +215,36 @@ public static class DataWorker
 
         return result;
     }
+
+    public static Position GetPosiionById(int id)
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            return db.Positions.FirstOrDefault(d => d.Id == id);
+        }
+    }
+
+    public static Department GetDepartmentById(int id)
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            return db.Departments.FirstOrDefault(d => d.Id == id);
+        }
+    }
+
+    public static List<User> GetAllUsersByPositionId(int id)
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            return (from user in GetAllUsers() where user.PositionId == id select user).ToList();
+        }
+    }
+
+    public static List<Position> GetAllPositionsByDepartmentId(int id)
+    {
+        using (ApplicationContext db = new ApplicationContext())
+        {
+            return (from position in GetAllPositions() where position.DepartmentId == id select position).ToList();
+        }
+    }
 }
